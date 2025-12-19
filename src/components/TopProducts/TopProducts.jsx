@@ -1,90 +1,66 @@
-import React from "react";
-import Img1 from "../../assets/shirt/shirt.png";
-import Img2 from "../../assets/shirt/shirt2.png";
-import Img3 from "../../assets/shirt/shirt3.png";
-import { FaStar } from "react-icons/fa";
+import React from 'react';
 
-const ProductsData = [
-  {
-    id: 1,
-    img: Img1,
-    title: "Casual Wear",
-    description:
-      "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  },
-  {
-    id: 2,
-    img: Img2,
-    title: "Printed shirt",
-    description:
-      "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  },
-  {
-    id: 3,
-    img: Img3,
-    title: "Women shirt",
-    description:
-      "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  },
-];
-const TopProducts = ({ handleOrderPopup }) => {
+const Categories = () => {
+  const categoryData = [
+    { 
+      id: 1, 
+      name: "Phone",
+       icon: "phone-portrait-outline"
+     },
+    {
+       id: 2, 
+       name: "Watch", 
+       icon: "watch-outline"
+   },
+    { 
+      id: 3,
+       name: "Camera",
+        icon: "camera-reverse-outline"
+   },
+    { 
+      id: 4, 
+      name: "Headset", 
+      icon: "headset-outline" 
+    },
+    { 
+      id: 5, name: 
+      "Gaming", icon: 
+      "game-controller-outline" 
+    },
+    { 
+      id: 6, 
+      name: "TV", 
+      icon: "tv-outline" },
+  ];
+
   return (
-    <div>
-      <div className="container">
-        {/* Header section */}
-        <div className="text-left mb-24">
-          <p data-aos="fade-up" className="text-sm text-primary">
-            Top Rated Products for you
-          </p>
-          <h1 data-aos="fade-up" className="text-3xl font-bold">
-            Best Products
-          </h1>
-          <p data-aos="fade-up" className="text-xs text-gray-400">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sit
-            asperiores modi Sit asperiores modi
-          </p>
-        </div>
-        {/* Body section */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-20 md:gap-5 place-items-center">
-          {ProductsData.map((data) => (
-            <div
-              data-aos="zoom-in"
-              className="rounded-2xl bg-white dark:bg-gray-800 hover:bg-black/80 dark:hover:bg-primary hover:text-white relative shadow-xl duration-300 group max-w-[300px]"
-            >
-              {/* image section */}
-              <div className="h-[100px]">
-                <img
-                  src={data.img}
-                  alt=""
-                  className="max-w-[140px] block mx-auto transform -translate-y-20 group-hover:scale-105 duration-300 drop-shadow-md"
-                />
-              </div>
-              {/* details section */}
-              <div className="p-4 text-center">
-                {/* star rating */}
-                <div className="w-full flex items-center justify-center gap-1">
-                  <FaStar className="text-yellow-500" />
-                  <FaStar className="text-yellow-500" />
-                  <FaStar className="text-yellow-500" />
-                  <FaStar className="text-yellow-500" />
-                </div>
-                <h1 className="text-xl font-bold">{data.title}</h1>
-                <p className="text-gray-500 group-hover:text-white duration-300 text-sm line-clamp-2">
-                  {data.description}
-                </p>
-                <button
-                  className="bg-primary hover:scale-105 duration-300 text-white py-1 px-4 rounded-full mt-4 group-hover:bg-white group-hover:text-primary"
-                  onClick={handleOrderPopup}
-                >
-                  Order Now
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
+    <section className="container mx-auto px-4 py-12">
+      
+      <h1 className="text-3xl font-bold mb-8 text-center md:text-left">
+        Best Selling Categories
+      </h1>
+
+      
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+        {categoryData.map((item) => (
+          <div 
+            key={item.id} 
+            className="border border-gray-300 rounded-sm py-6 flex flex-col justify-center items-center gap-4 cursor-pointer hover:bg-red-500 hover:text-white transition-all duration-300 group"
+          >
+            <ion-icon 
+              name={item.icon} 
+              className="text-4xl md:text-6xl group-hover:text-white"
+            ></ion-icon>
+            <p className="text-base md:text-lg font-medium">
+              {item.name}
+            </p>
+          </div>
+        ))}
       </div>
-    </div>
+
+      <hr className="mt-16 border-gray-200" />
+    </section>
   );
 };
 
-export default TopProducts;
+export default Categories;
