@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import AuthModal from "./AuthModal";
 
 import { IoMdSearch } from "react-icons/io";
 import { FaCartShopping } from "react-icons/fa6";
@@ -52,7 +53,10 @@ const DropdownLinks = [
   },
 ];
 
-const Navbar = ({ handleOrderPopup }) => {
+const Navbar = ({ handleOrderPopup  }) => {
+  const [openAuth, setOpenAuth] = useState(false);
+
+
   return (
     <div className="shadow-md bg-white dark:bg-slate-800 dark:text-white duration-200 relative z-40">
       {/* upper Navbar */}
@@ -64,6 +68,7 @@ const Navbar = ({ handleOrderPopup }) => {
               ShopMe
             </a>
           </div>
+      
 
           {/* search bar */}
           <div className="flex justify-between items-center gap-4">
@@ -76,7 +81,25 @@ const Navbar = ({ handleOrderPopup }) => {
               />
               <IoMdSearch className="text-slate-800 group-hover:text-primary absolute top-1/2 -translate-y-1/2 right-3" />
             </div>
+          
+            {/* Sign In Button */}
+            {/* Sign In Button - Desktop */}
+          <button
+            onClick={() => setOpenAuth(true)}
+            className="hidden sm:block px-4 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
+            >
+           Sign In
+          </button>
 
+          <button
+           onClick={() => setOpenAuth(true)}
+           className="sm:hidden bg-blue-500 text-white p-2 rounded-full"
+          >
+           Sign In
+  </button>
+
+
+      
             {/* order button */}
             <button
               onClick={() => handleOrderPopup()}
@@ -87,7 +110,6 @@ const Navbar = ({ handleOrderPopup }) => {
               </span>
               <FaCartShopping className="text-xl text-white drop-shadow-sm cursor-pointer" />
             </button>
-
             {/* Darkmode Switch */}
             <div>
               <DarkMode />
@@ -133,8 +155,14 @@ const Navbar = ({ handleOrderPopup }) => {
           </li>
         </ul>
       </div>
+      <AuthModal
+      isOpen={openAuth}
+      onClose={() => setOpenAuth(false)}
+      />
+
     </div>
   );
 };
+
 
 export default Navbar;

@@ -1,36 +1,43 @@
 import React from 'react';
+import Mobile from  "../../assets/Product/phone.png";
+import Smart from  "../../assets/Product/smartwatch.jpg";
+import Photo from  "../../assets/Product/camera.png";
+import Ear1 from "../../assets/Product/head.jpg";
+import Comgame from "../../assets/Product/gamming.png";
+import Movie from "../../assets/Product/tv.jpeg";
 
 const Categories = () => {
   const categoryData = [
     { 
       id: 1, 
       name: "Phone",
-       icon: "phone-portrait-outline"
+       img: Mobile,
      },
     {
        id: 2, 
        name: "Watch", 
-       icon: "watch-outline"
+       img: Smart,
    },
     { 
       id: 3,
        name: "Camera",
-        icon: "camera-reverse-outline"
+      img: Photo,
    },
     { 
       id: 4, 
       name: "Headset", 
-      icon: "headset-outline" 
+      img: Ear1,
     },
     { 
-      id: 5, name: 
-      "Gaming", icon: 
-      "game-controller-outline" 
+      id: 5,
+       name: "Gaming",
+      img: Comgame,
     },
     { 
       id: 6, 
       name: "TV", 
-      icon: "tv-outline" },
+      img: Movie,
+     },
   ];
 
   return (
@@ -47,10 +54,9 @@ const Categories = () => {
             key={item.id} 
             className="border border-gray-300 rounded-sm py-6 flex flex-col justify-center items-center gap-4 cursor-pointer hover:bg-red-500 hover:text-white transition-all duration-300 group"
           >
-            <ion-icon 
-              name={item.icon} 
+            <img src={item.img} alt={item.name} 
               className="text-4xl md:text-6xl group-hover:text-white"
-            ></ion-icon>
+            />
             <p className="text-base md:text-lg font-medium">
               {item.name}
             </p>

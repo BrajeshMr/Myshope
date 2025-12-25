@@ -1,4 +1,6 @@
 import React from 'react';
+import { useCart } from '../Context/CartContext';
+
 import Iphone17 from "../../assets/Product/iphone-17.webp";
 import Image1 from "../../assets/Product/women.png";
 import Clock from "../../assets/Product/clock.webp";
@@ -7,16 +9,36 @@ import Toy from "../../assets/Product/toy.jpg";
 import Shoes from "../../assets/Product/shoes.webp";
 import Watch from "../../assets/Product/smart.webp";
 import Laptop from "../../assets/Product/laptop.webp";
-const Products = () => {
+
+
+const Products = ({ handleAddToCart }) => {
+  const { addItem, items, setQuantity, removeItem } = useCart();
+  // localAddToCart will add item to global cart and forward to prop handler
+  const localAddToCart = (product) => {
+    addItem(product);
+    if (typeof handleAddToCart === 'function') handleAddToCart(product);
+  };
+
+  const increment = (product) => {
+    addItem(product);
+  };
+
+  const decrement = (product) => {
+    const q = items && items[product.id] ? items[product.id].quantity : 0;
+    if (q <= 1) {
+      removeItem(product.id);
+    } else {
+      setQuantity(product.id, q - 1);
+    }
+  };
   const productData = [
     {
       id: 1,
       title: "iPhone 17 Pro",
       price: 120,
-      oldPrice: 160,
       discount: "-40%",
       rating: 5.0,
-      color: "white",
+      color: "black",
       img: Iphone17,
     },
     {
@@ -89,6 +111,8 @@ const Products = () => {
       img: Laptop,
     }
   ];
+  
+
 
   return (
     <section className="my-24 px-4">
@@ -100,45 +124,72 @@ const Products = () => {
             {/* Image Wrapper */}
             <div className="relative h-[250px] bg-gray-100 rounded-sm flex justify-center items-center overflow-hidden">
               
-              {/* Discount Badge */}
-              <div className="absolute top-3 left-3 bg-red-500 text-white text-xs font-medium px-3 py-1 rounded-[4px]">
-                {product.discount}
-              </div>
-
-              {/* Action Buttons (Wishlist/View) */}
-              <div className="absolute top-3 right-3 flex flex-col gap-2">
-                <div className="bg-white w-8 h-8 rounded-full flex justify-center items-center cursor-pointer hover:bg-gray-200 transition">
-                  <ion-icon name="heart-outline" className="text-xl"></ion-icon>
+              {product.discount && (
+                <div className="absolute top-3 left-3 bg-red-500 text-white text-xs font-medium px-3 py-1 rounded-[4px]">
+                  {product.discount}
                 </div>
-                <div className="bg-white w-8 h-8 rounded-full flex justify-center items-center cursor-pointer hover:bg-gray-200 transition">
-                  <ion-icon name="eye-outline" className="text-xl"></ion-icon>
-                </div>
-              </div>
+              )}
 
-              
               <img 
                 src={product.img} 
                 alt={product.title} 
                 className="w-[170px] object-contain transition-transform duration-300 group-hover:scale-105" 
               />
 
-              
-              <div className="absolute bottom-0 w-full bg-black text-white py-2 text-center cursor-pointer opacity-0 group-hover:opacity-100 transition-all duration-300">
-                  Add To Cart
+              {/* Quantity badge */}
+              {items && items[product.id] && items[product.id].quantity > 0 && (
+                <div className="absolute top-3 right-3 bg-white text-black rounded-full w-8 h-8 flex items-center justify-center font-semibold">
+                  {items[product.id].quantity}
+                </div>
+              )}
+
+              {/* Add To Cart + quantity controls */}
+              <div className="absolute bottom-0 w-full py-2 px-2 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                <div className="flex items-center justify-between gap-2">
+                  <button
+                    onClick={() => localAddToCart(product)}
+                    className="flex-1 bg-black text-white py-2 text-center cursor-pointer rounded text-sm"
+                  >
+                    Add To Cart
+                  </button>
+
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => decrement(product)}
+                      className="bg-white text-black px-3 py-1 rounded border"
+                    >
+                      -
+                    </button>
+
+                    <div className="w-8 text-center font-semibold">
+                      {items && items[product.id] ? items[product.id].quantity : 0}
+                    </div>
+
+                    <button
+                      onClick={() => increment(product)}
+                      className="bg-white text-black px-3 py-1 rounded border"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
 
-            
             <div className="mt-4 space-y-1">
               <h3 className="font-semibold text-base">{product.title}</h3>
               
               <div className="flex gap-3 text-red-500 font-medium">
-                ${product.price} <span className="text-gray-500 line-through font-normal">${product.oldPrice}</span>
+                ${product.price} 
+                {/* FIX: Only show old price if it exists */}
+                {product.oldPrice && (
+                    <span className="text-gray-500 line-through font-normal">${product.oldPrice}</span>
+                )}
               </div>
 
-              
               <div className="flex items-center gap-2"> 
                 <div className="flex text-yellow-500 text-lg">
+                  {/* Dynamic stars logic would go here */}
                   <ion-icon name="star"></ion-icon>
                   <ion-icon name="star"></ion-icon>
                   <ion-icon name="star"></ion-icon>
@@ -148,9 +199,7 @@ const Products = () => {
                 <span className="text-gray-400 text-sm font-semibold">({product.rating})</span>
               </div>
             </div>
-            
           </div>
-          
         ))}
       </div>
     </section>
